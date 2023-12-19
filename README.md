@@ -2,58 +2,84 @@
 <img src="https://github.com/muqeet-here/SkyGuard-Y5/blob/main/images/Image.png" alt="Drone">
 ## Overview
 
-This repository contains the implementation of a Printed Circuit Board (PCB) defect detection system using YOLOv8, a state-of-the-art object detection model. The objective is to identify and classify defects on PCBs, providing a reliable tool for quality control in manufacturing processes.
+SkyGuard Y5 is a drone detection system based on the YOLOv5 object detection model. It is trained using annotated data from Roboflow, a platform for managing and annotating computer vision datasets.
 
-## Model Optimization
+## Roboflow Dataset
 
-To enhance the efficiency and practicality of the model, several optimizations were performed:
+The annotated dataset for this project is available on Roboflow. You can access it [here](https://app.roboflow.com/nano-industries-sjw3s/quadcopter-mzzrt/1).
 
-### 1. Mean Average Precision (mAP) Improvement
+## Custom Training with YOLOv5
 
-Implemented techniques to improve the Mean Average Precision of the YOLOv8 model. This ensures more accurate and reliable detection of defects on PCBs.
+To perform custom training with YOLOv5, you can use the following Colab notebook:
 
-### 2. Model Size Reduction
+[YOLOv5 Custom Training Tutorial](https://colab.research.google.com/github/roboflow-ai/yolov5-custom-training-tutorial/blob/main/yolov5-custom-training.ipynb)
 
-Reduced the model size to 22 MB, enhancing the deployment feasibility of the model on resource-constrained environments.
+## Requirements
 
-## Data Preprocessing
+- Python 3.x
+- PyTorch
+- YOLOv5
+- Roboflow account for annotation
 
-1. Utilized the Roboflow platform for efficient annotation and preprocessing of the PCB defect dataset. Dataset available [here](https://universe.roboflow.com/hubei-university-of-technology-rmbpi/pcb-ecjga).
-2. Converted the annotated dataset into the YOLOv8 format for compatibility with the chosen model architecture.
+## Getting Started
 
-## Training Process in Colab
+1. **Clone the repository:**
 
-1. Utilized the YOLOv8 custom training notebook in Colab for efficient and scalable training. Access the notebook [here](https://colab.research.google.com/github/roboflow-ai/notebooks/blob/main/notebooks/train-yolov8-object-detection-on-custom-dataset.ipynb).
-2. Configured the notebook to utilize the GPU for faster training.
-3. Incorporated necessary hyperparameter tuning for optimal model performance.
-4. Monitored training progress and visualized results to ensure model convergence.
+    ```bash
+    git clone https://github.com/yourusername/drone-detection-yolov5.git
+    cd drone-detection-yolov5
+    ```
 
-## Evaluation
+2. **Install dependencies:**
 
-Conducted thorough evaluation metrics analysis to validate the effectiveness of the trained YOLOv8 model. This includes precision, recall, and F1-score metrics to assess the model's accuracy in detecting PCB defects.
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-## Defect Classes
+3. **Download the YOLOv5 weights:**
 
-This project encompasses a broader spectrum of defects compared to previous researches. The eight defect classes include:
-1. False Copper
-2. Missing Hole
-3. Mousebite
-4. Open Circuit
-5. Pinhole
-6. Scratch
-7. Short Circuit
-8. Spur
+    ```bash
+    ./download_weights.sh
+    ```
 
-## Previous Researches
+4. **Obtain annotated data from Roboflow:**
 
-While previous researches typically focused on six defect classes, our project extends the scope to include the additional defect classes of False Copper and Spur, providing a more comprehensive defect detection solution.
+   - Log in to your Roboflow account.
+   - Upload and annotate drone images using the Roboflow platform.
+   - Export the dataset in YOLOv5 format.
 
-## GitHub Repository
+5. **Organize the dataset:**
 
-Feel free to explore the code, documentation, and resources in this repository. If you have any questions or suggestions, please don't hesitate to reach out.
+    ```bash
+    unzip path/to/roboflow_export.zip -d data/
+    ```
 
-**Repo Name: PCB-YOLOv8-Defect-Detection**
+6. **Train the model:**
 
-Feel free to modify the repository name based on your preferences. This repository will serve as a centralized hub for your project.
+    ```bash
+    python train.py --data data.yaml --cfg yolov5s.yaml --weights yolov5s.pt --batch-size 16
+    ```
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+7. **Evaluate the model:**
+
+    ```bash
+    python val.py --data data.yaml --weights runs/train/exp/weights/best.pt
+    ```
+
+## Customization
+
+- Adjust YOLOv5 configuration in `yolov5s.yaml`.
+- Fine-tune training parameters in `train.py`.
+
+## Results
+
+After training, you can find the model weights in the `runs/train/exp/weights/` directory.
+
+## Acknowledgments
+
+- YOLOv5: [GitHub Repo](https://github.com/ultralytics/yolov5)
+- Roboflow: [Official Website](https://roboflow.com/)
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
